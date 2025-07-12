@@ -77,10 +77,6 @@ const UploadImage = ({
 
   return (
     <div>
-      <p className="text-[#D6E0FF] text-[16px] mb-2 font-medium">
-        Upload University ID Card (file upload)
-      </p>
-
       <label className="flex items-center justify-center gap-1 bg-[#232839] px-5 py-3 rounded-[5px] !ring-0 border-0 text-[16px]">
         <Image
           src="/icons/upload.svg"

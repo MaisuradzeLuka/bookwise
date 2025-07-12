@@ -7,6 +7,12 @@ const config = {
       publicKey: process.env.NEXT_PUBLIC_IMAGEKIT_KEY!,
       privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
     },
+
+    dbConnectionUrl: process.env.DB_CONNECTION_URL!,
+    redis: {
+      endpoint: process.env.REDIS_DB_ENDPOINT!,
+      token: process.env.REDIS_TOKEN!,
+    },
   },
 };
 

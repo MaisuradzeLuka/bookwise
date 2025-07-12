@@ -1,5 +1,6 @@
 "use client";
 
+import { signInWithCredentials } from "@/actions/auth";
 import AuthForm from "@/components/forms/AuthForm";
 import { signInSchema } from "@/lib/validation";
 import Image from "next/image";
@@ -10,6 +11,7 @@ const page = () => {
     email: "",
     password: "",
   };
+
   return (
     <main className="authForm mx-auto w-full flex flex-col sm:w-[586px] p-10 rounded-[20px] gap-8">
       <h1 className="flex items-center gap-2">
@@ -21,6 +23,7 @@ const page = () => {
         type="sign-in"
         defaultValues={defaultValues}
         schema={signInSchema}
+        onSubmit={signInWithCredentials}
       />
     </main>
   );

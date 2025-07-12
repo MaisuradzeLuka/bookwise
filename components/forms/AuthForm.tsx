@@ -16,18 +16,36 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { formFields, formFieldTypes } from "@/constants";
 import UploadImage from "../UploadImage";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const AuthForm = <T extends FieldValues>({
   type,
   schema,
   defaultValues,
+  onSubmit,
 }: AuthFormType<T>) => {
+  const router = useRouter();
+
   const form: UseFormReturn<T> = useForm({
-    resolver: zodResolver(schema as any),
+    // resolver: zodResolver(schema as any),
     defaultValues: defaultValues as DefaultValues<T>,
   });
 
-  const handleSubmit = async (values: T) => {};
+  const submitHandler = async (values: T) => {
+    const res = await onSubmit(values);
+
+    console.log(res);
+
+    if (res.success) {
+      toast.success(
+        type === "sign-in" ? "Signed in successfuly" : "Signed up successfuly"
+      );
+      router.push("/");
+    } else {
+      toast.error(res.message);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -47,7 +65,7 @@ const AuthForm = <T extends FieldValues>({
 
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(handleSubmit)}
+          onSubmit={form.handleSubmit(submitHandler)}
           className="flex flex-col gap-4"
         >
           {Object.keys(defaultValues).map((key) => {
@@ -63,7 +81,7 @@ const AuthForm = <T extends FieldValues>({
                     </FormLabel>
 
                     <FormControl>
-                      {key === "uniCard" ? (
+                      {key === "universityCard" ? (
                         <UploadImage onFileChange={field.onChange} />
                       ) : (
                         <Input

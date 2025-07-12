@@ -9,5 +9,6 @@ export const signUpSchema = z.object({
   fullname: z.string(),
   email: z.string().email(),
   universityId: z.number(),
+  universityCard: z.string(),
   password: z.string().min(6),
 });

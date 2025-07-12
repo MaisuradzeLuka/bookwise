@@ -1,5 +1,6 @@
 "use client";
 
+import { signUpWithCredentials } from "@/actions/auth";
 import AuthForm from "@/components/forms/AuthForm";
 import { signUpSchema } from "@/lib/validation";
 import Image from "next/image";
@@ -9,9 +10,9 @@ const page = () => {
   const defaultValues = {
     fullname: "",
     email: "",
-    universityId: 0,
     password: "",
-    uniCard: "",
+    universityId: 0,
+    universityCard: "",
   };
 
   return (
@@ -25,6 +26,7 @@ const page = () => {
         type="sign-up"
         schema={signUpSchema}
         defaultValues={defaultValues}
+        onSubmit={signUpWithCredentials}
       />
     </main>
   );

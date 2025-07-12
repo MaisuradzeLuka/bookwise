@@ -1,7 +1,10 @@
-import React, { ReactNode } from "react";
+import { auth, signOut } from "@/auth";
+import Signout from "@/components/Signout";
 
-const page = ({ children }: { children: ReactNode }) => {
-  return <div>page</div>;
+const page = async () => {
+  const session = await auth();
+
+  return <Signout />;
 };
 
 export default page;

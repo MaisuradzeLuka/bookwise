@@ -3,7 +3,7 @@ export const formFields = {
   email: "Email",
   universityId: "University ID Number",
   password: "Password",
-  uniCardId: "Upload University ID Card (file upload)",
+  universityCard: "Upload University ID Card (file upload)",
 };
 
 export const formFieldTypes = {
@@ -11,5 +11,5 @@ export const formFieldTypes = {
   email: "email",
   universityId: "number",
   password: "Password",
-  uniCardId: "file",
+  universityCard: "file",
 };
