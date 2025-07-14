@@ -35,7 +35,9 @@ export const { POST } = serve<InitialData>(async (context) => {
 
 async function sendEmail(message: string, email: string) {
   // Implement email sending logic here
-  const res = await emailjs.send("service_5lrgnqe", "template_nuwl0ld");
+  const res = await emailjs.send("service_5lrgnqe", "template_nuwl0ld", {
+    publicKey: "_NLcgBgxm-anuQEVp",
+  });
   //   console.log(`Sending ${message} email to ${email}`);
 }
 
