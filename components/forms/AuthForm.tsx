@@ -41,7 +41,7 @@ const AuthForm = <T extends FieldValues>({
       toast.success(
         type === "sign-in" ? "Signed in successfuly" : "Signed up successfuly"
       );
-      router.push("/");
+      // router.push("/");
     } else {
       toast.error(res.message);
     }

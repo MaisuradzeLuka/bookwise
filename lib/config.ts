@@ -1,6 +1,7 @@
 const config = {
   env: {
     apiEndpoint: process.env.URL_ENDPOINT!,
+    productionApiEndpoint: process.env.NEXT_PUBLIC_PROD_API_ENDPOINT!,
 
     imagekit: {
       endpoint: process.env.NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT!,
