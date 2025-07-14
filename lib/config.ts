@@ -13,6 +13,11 @@ const config = {
       endpoint: process.env.REDIS_DB_ENDPOINT!,
       token: process.env.REDIS_TOKEN!,
     },
+
+    qstash: {
+      qstashUrl: process.env.QSTASH_URL!,
+      qstashToken: process.env.QSTASH_TOKEN!,
+    },
   },
 };
 
