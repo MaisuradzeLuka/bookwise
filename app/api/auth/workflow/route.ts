@@ -44,6 +44,7 @@ async function sendEmail(message: string, email: string) {
       service_id: config.env.emailjs.serviceId,
       template_id: config.env.emailjs.templateId,
       user_id: config.env.emailjs.publicKey,
+      template_params: {},
     }),
   });
 
