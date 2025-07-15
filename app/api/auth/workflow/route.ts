@@ -48,7 +48,7 @@ async function sendEmail(message: string, email: string) {
     }),
   });
 
-  console.log(await response.json());
+  console.log(response);
 }
 
 type UserState = "non-active" | "active";
