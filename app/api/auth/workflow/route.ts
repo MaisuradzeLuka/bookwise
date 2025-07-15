@@ -1,5 +1,6 @@
 import { serve } from "@upstash/workflow/nextjs";
 import emailjs from "@emailjs/browser";
+import config from "@/lib/config";
 
 type InitialData = {
   email: string;
@@ -34,14 +35,19 @@ export const { POST } = serve<InitialData>(async (context) => {
 });
 
 async function sendEmail(message: string, email: string) {
-  // Implement email sending logic here
-  const res = await emailjs.send(
-    "service_5lrgnqe",
-    "template_nuwl0ld",
-    { from: email },
-    "_NLcgBgxm-anuQEVp"
-  );
-  //   console.log(`Sending ${message} email to ${email}`);
+  const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      service_id: config.env.emailjs.serviceId,
+      template_id: config.env.emailjs.templateId,
+      user_id: config.env.emailjs.publicKey,
+    }),
+  });
+
+  console.log(await response.json());
 }
 
 type UserState = "non-active" | "active";
