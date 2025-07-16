@@ -9,7 +9,15 @@ export const workflowClient = new WorkflowClient({
 
 const client = new QstashClient({ token: config.env.qstash.qstashToken });
 
-export const sendEmail = async () => {
+export const sendEmail = async ({
+  email,
+  subject,
+  text,
+}: {
+  email: string;
+  subject: string;
+  text: string;
+}) => {
   await client.publishJSON({
     api: {
       name: "email",

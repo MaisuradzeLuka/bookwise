@@ -11,6 +11,10 @@ import rateLimit from "@/lib/ratelimit";
 import { workflowClient } from "@/lib/workflow";
 import config from "@/lib/config";
 
+const ONE_DAY_IN_MS = 60 * 60 * 24 * 1000;
+const THREE_DAYS_IN_MS = ONE_DAY_IN_MS * 3;
+const ONE_MONTH_IN_MS = ONE_DAY_IN_MS * 30;
+
 export const signInWithCredentials = async (
   credentials: Pick<Credentials, "email" | "password">
 ) => {
@@ -22,16 +26,16 @@ export const signInWithCredentials = async (
   if (!success) return { success: false, message: "Too many requests" };
 
   try {
-    const singnedInUser = await signIn("credentials", {
+    await signIn("credentials", {
+      redirect: false,
       email,
       password,
-      redirect: false,
     });
 
-    if (singnedInUser) return { success: true };
+    return { success: true };
   } catch (error: any) {
-    console.log(`Couldn't sign in user: ${error.message}`);
-    return { success: false, message: error.message };
+    console.log(`Couldn't sign in user: ${error}`);
+    return { success: false, message: "Password or email is incorrect" };
   }
 };
 
@@ -60,7 +64,7 @@ export const signUpWithCredentials = async (credentials: Credentials) => {
       universityId,
     });
 
-    // await signInWithCredentials({ email, password: hashedPassword });
+    await signInWithCredentials({ email, password });
 
     await workflowClient.trigger({
       url: `${config.env.productionApiEndpoint}/api/auth/workflow`,
@@ -74,4 +78,22 @@ export const signUpWithCredentials = async (credentials: Credentials) => {
     console.log(`Couldn't sign up the user: ${error.message}`);
     return { success: false, message: error.message };
   }
+};
+
+export const getUserState = async (email: string) => {
+  const user = await db
+    .select()
+    .from(usersTable)
+    .where(eq(usersTable.email, email))
+    .limit(1);
+
+  const lastActivity = new Date(user[0]?.lastActivity!);
+  const currentDate = new Date();
+  const timeDifference = currentDate.getTime() - lastActivity.getTime();
+
+  if (timeDifference > THREE_DAYS_IN_MS && timeDifference < ONE_MONTH_IN_MS) {
+    return "non-active";
+  }
+
+  return "active";
 };

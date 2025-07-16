@@ -14,7 +14,6 @@
 
 .authFormWrapper {
   flex: 1;
-  height: full;
   background-image: url("/images/pattern.webp");
   background-size: cover;
   background-repeat: no-repeat;
@@ -33,6 +32,15 @@
   background-repeat: no-repeat;
 }
 
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 @media (max-width: 1100px) {
   .authImg {
     width: 35%;
@@ -47,5 +55,9 @@
   .authImg {
     width: 100%;
     height: 15%;
+  }
+
+  .authFormWrapper {
+    height: 65%;
   }
 }

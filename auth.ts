@@ -16,22 +16,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           .where(eq(usersTable.email, credentials.email as string))
           .limit(1);
 
-        if (existingUser.length === 0) return null;
+        if (existingUser.length === 0) throw new Error("User doesn't exist");
 
         const isPasswordCorrect = await compare(
           credentials.password as string,
           existingUser[0].password as string
         );
 
-        if (!isPasswordCorrect) return null;
+        if (!isPasswordCorrect) {
+          throw new Error("Password is incorrect");
+        }
 
-        return existingUser as User;
+        return existingUser[0] as User;
       },
     }),
   ],
+
   pages: {
     signIn: "/sign-in",
   },
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

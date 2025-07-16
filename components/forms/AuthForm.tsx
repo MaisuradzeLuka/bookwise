@@ -35,13 +35,12 @@ const AuthForm = <T extends FieldValues>({
   const submitHandler = async (values: T) => {
     const res = await onSubmit(values);
 
-    console.log(res);
-
     if (res.success) {
       toast.success(
         type === "sign-in" ? "Signed in successfuly" : "Signed up successfuly"
       );
-      // router.push("/");
+
+      router.push("/");
     } else {
       toast.error(res.message);
     }

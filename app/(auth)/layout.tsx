@@ -15,7 +15,7 @@ export default async function authLayout({
 
   return (
     <div className="authLayout">
-      <div className="authFormWrapper w-full flex items-center px-4 text-white">
+      <div className="authFormWrapper  w-full flex items-center px-4 text-white">
         {children}
       </div>
       <div className="authImg" />
