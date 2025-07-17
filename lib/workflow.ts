@@ -25,9 +25,9 @@ export const sendEmail = async ({
     },
     body: {
       from: "Luka Maisuradze <onboarding@resend.dev>",
-      to: ["codeverselm@gmail.com"],
-      subject: "Hello World",
-      html: "<p>It works!</p>",
+      to: [email],
+      subject,
+      html: text,
     },
   });
 };

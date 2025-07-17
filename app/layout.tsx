@@ -4,6 +4,8 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { auth } from "@/auth";
+import { ImageKitProvider } from "@imagekit/next";
+import config from "@/lib/config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,12 +32,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <SessionProvider session={session}>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          {children}
-          <Toaster />
-        </body>
+        <ImageKitProvider urlEndpoint={config.env.imagekit.endpoint}>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            {children}
+            <Toaster />
+          </body>
+        </ImageKitProvider>
       </SessionProvider>
     </html>
   );

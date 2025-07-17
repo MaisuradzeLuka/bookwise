@@ -11,7 +11,7 @@ const page = () => {
     fullname: "",
     email: "",
     password: "",
-    universityId: 0,
+    universityId: "",
     universityCard: "",
   };
 

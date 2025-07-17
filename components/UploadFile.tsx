@@ -1,18 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { upload } from "@imagekit/next";
+import { Image, upload, Video } from "@imagekit/next";
 import { toast } from "sonner";
-import Image from "next/image";
+import { Progress } from "./ui/progress";
 
-const UploadImage = ({
-  onFileChange,
-}: {
+type Props = {
+  type: "image" | "video";
+  accept: "image/*" | "video/*";
+  variant: "light" | "dark";
+  folder: "videos" | "images";
   onFileChange: (fileUrl: string) => void;
-}) => {
+};
+
+const UploadFile = ({ accept, type, variant, folder, onFileChange }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [progress, setProgress] = useState(0);
   const [file, setFile] = useState("");
   const [tempFile, setTempFile] = useState("");
+  const firstRender = useRef(false);
 
   const authenticator = async () => {
     try {
@@ -57,12 +63,17 @@ const UploadImage = ({
         signature,
         publicKey,
         file,
+        folder,
         fileName: file.name,
+        onProgress: (event) => {
+          setProgress(Math.round((event.loaded / event.total) * 100));
+        },
       });
 
       if (uploadResponse.url) {
         setFile(uploadResponse.url);
         onFileChange(uploadResponse.url);
+        setProgress(0);
       }
 
       toast.success("Image uploaded successfuly!");
@@ -72,24 +83,35 @@ const UploadImage = ({
   };
 
   useEffect(() => {
+    if (!firstRender.current) {
+      firstRender.current = true;
+      return;
+    }
+
     handleUpload();
   }, [tempFile]);
 
   return (
     <div>
-      <label className="flex items-center justify-center gap-1 bg-[#232839] px-5 py-3 rounded-[5px] !ring-0 border-0 text-[16px]">
-        <Image
+      <label
+        className={`flex items-center justify-center gap-1 ${
+          variant === "dark"
+            ? "bg-[#232839] text-[#D6E0FF] border-0"
+            : "border border-[#CBD5E1] bg-[#F9FAFB] text-[#64748B]"
+        } px-5 py-3 rounded-[5px] !ring-0  text-[16px] cursor-pointer`}
+      >
+        <img
           src="/icons/upload.svg"
           width={18}
           height={18}
           alt="upload image"
         />
 
-        <span className="text-[#D6E0FF] text-[16px]">Upload a file</span>
+        <span>Upload {type}</span>
 
         <input
           type="file"
-          accept="image/*"
+          accept={accept}
           ref={fileInputRef}
           className="hidden"
           onChange={(e) => {
@@ -99,7 +121,7 @@ const UploadImage = ({
         />
       </label>
 
-      {file && (
+      {file && type === "image" ? (
         <Image
           src={file}
           width={400}
@@ -107,9 +129,24 @@ const UploadImage = ({
           alt="uploaded image"
           className="w-full rounded-sm mt-8"
         />
-      )}
+      ) : file && type === "video" ? (
+        <Video
+          src={file}
+          width={400}
+          height={400}
+          alt="uploaded image"
+          className="w-full rounded-sm mt-8"
+        />
+      ) : null}
+
+      {progress ? (
+        <Progress
+          value={progress}
+          className="w-full mt-2 bg-gray-300 rounded-full [&>div]:bg-primary-blue"
+        />
+      ) : null}
     </div>
   );
 };
 
-export default UploadImage;
+export default UploadFile;

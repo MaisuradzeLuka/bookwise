@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   DefaultValues,
@@ -10,14 +10,21 @@ import {
   UseFormReturn,
 } from "react-hook-form";
 import { Button } from "../ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { AuthFormType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import { formFields, formFieldTypes } from "@/constants";
-import UploadImage from "../UploadImage";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import UploadFile from "../UploadFile";
 
 const AuthForm = <T extends FieldValues>({
   type,
@@ -26,13 +33,16 @@ const AuthForm = <T extends FieldValues>({
   onSubmit,
 }: AuthFormType<T>) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form: UseFormReturn<T> = useForm({
-    // resolver: zodResolver(schema as any),
+    resolver: zodResolver(schema as any),
     defaultValues: defaultValues as DefaultValues<T>,
   });
 
   const submitHandler = async (values: T) => {
+    setIsLoading(true);
+
     const res = await onSubmit(values);
 
     if (res.success) {
@@ -44,6 +54,7 @@ const AuthForm = <T extends FieldValues>({
     } else {
       toast.error(res.message);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -81,7 +92,13 @@ const AuthForm = <T extends FieldValues>({
 
                     <FormControl>
                       {key === "universityCard" ? (
-                        <UploadImage onFileChange={field.onChange} />
+                        <UploadFile
+                          onFileChange={field.onChange}
+                          type="image"
+                          accept="image/*"
+                          variant="dark"
+                          folder="images"
+                        />
                       ) : (
                         <Input
                           required
@@ -93,6 +110,7 @@ const AuthForm = <T extends FieldValues>({
                         />
                       )}
                     </FormControl>
+                    <FormMessage className="text-xs text-red-500" />
                   </FormItem>
                 )}
               />
@@ -100,6 +118,7 @@ const AuthForm = <T extends FieldValues>({
           })}
 
           <Button
+            disabled={isLoading}
             className="bg-primary-100 text-[#14171C] py-6 cursor-pointer"
             type="submit"
           >
