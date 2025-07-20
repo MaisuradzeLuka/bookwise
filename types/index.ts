@@ -23,8 +23,11 @@ export type BookFields = {
   genre: string;
   description: string;
   totalCoppies: number;
+  rating: string;
   image: string;
   cover: string;
   summary: string;
   video?: string | undefined;
 };
+
+export type BookTypes = {};

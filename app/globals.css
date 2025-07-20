@@ -62,3 +62,9 @@
     height: 65%;
   }
 }
+
+.rootLayout {
+  background-image: url("/images/pattern.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+}

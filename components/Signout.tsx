@@ -1,4 +1,5 @@
 import { signOut } from "@/auth";
+import Image from "next/image";
 import React from "react";
 
 const Signout = () => {
@@ -9,7 +10,14 @@ const Signout = () => {
         await signOut();
       }}
     >
-      <button type="submit">Sign Out</button>
+      <button type="submit">
+        <Image
+          src="/icons/logout.svg"
+          width={24}
+          height={24}
+          alt="log out button"
+        />
+      </button>
     </form>
   );
 };

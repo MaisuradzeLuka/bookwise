@@ -45,7 +45,9 @@ const Sidebar = () => {
                   alt={`${link.label} logo`}
                   className={` ${isActive ? " brightness-0 invert" : ""}`}
                 />
-                <span className="text-[16px] font-medium">{link.label}</span>
+                <span className="hidden md:inline text-[16px] font-medium">
+                  {link.label}
+                </span>
               </Link>
             </li>
           );

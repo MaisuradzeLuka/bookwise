@@ -2,25 +2,52 @@
 
 import { db } from "@/database";
 import { booksTable } from "@/database/schema";
-import { BookFields } from "@/types";
+import { desc, eq, sql } from "drizzle-orm";
 
-export const addBook = async (bookFields: BookFields) => {
+export const getBooks = async (filterOptions = "") => {
   try {
-    const response = await db
-      .insert(booksTable)
-      .values({ ...bookFields })
-      .returning();
+    const books = await db
+      .select()
+      .from(booksTable)
+      .where(filterOptions ? eq(booksTable.genre, filterOptions) : sql`TRUE`)
+      .orderBy(desc(booksTable.rating));
+
+    if (!books.length) {
+      return {
+        seccess: false,
+        message: "No books found",
+      };
+    }
 
     return {
       success: true,
-      message: "Book added successfully",
-      body: response[0].id,
+      books: books,
     };
   } catch (error: any) {
-    console.log("Error while adding book: ", error.message);
+    console.log(`Error while fetching books: ${error.message}`);
+  }
+};
+
+export const getSingleBook = async (bookId: string) => {
+  try {
+    const book = await db
+      .select()
+      .from(booksTable)
+      .where(eq(booksTable.id, bookId))
+      .limit(1);
+
+    if (!book.length) {
+      return {
+        seccess: false,
+        message: "No books found",
+      };
+    }
+
     return {
-      success: false,
-      message: `Coudln't add the book. Please try again later`,
+      success: true,
+      book: book[0],
     };
+  } catch (error: any) {
+    console.log(`Error while fetching books: ${error.message}`);
   }
 };

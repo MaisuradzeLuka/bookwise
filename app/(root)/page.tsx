@@ -1,13 +1,21 @@
-import { getUserState } from "@/actions/auth";
-import { auth, signOut } from "@/auth";
-import Signout from "@/components/Signout";
+import { getBooks } from "@/actions/books";
+import { auth } from "@/auth";
+import BookCard from "@/components/BookCard";
+import Overwiev from "@/components/Overwiev";
 import { db } from "@/database";
 import { usersTable } from "@/database/schema";
+import { BookFields } from "@/types";
 import { eq } from "drizzle-orm";
+import Image from "next/image";
+import Link from "next/link";
 import { after } from "next/server";
 
 const page = async () => {
   const session = await auth();
+
+  const books = await getBooks();
+
+  const mostRecent = books?.books![0];
 
   after(async () => {
     const user = await db
@@ -26,7 +34,23 @@ const page = async () => {
       .where(eq(usersTable.id, session?.user?.id!));
   });
 
-  return <Signout />;
+  return (
+    <>
+      <Overwiev book={mostRecent as BookFields} />
+
+      <section className="pb-20">
+        <h2 className="text-white text-[32px] font-semibold mt-20">
+          Popular Books
+        </h2>
+
+        <div className="w-ful flex flex-col sm:flex-row flex-wrap items-center justify-between mt-12">
+          {books?.books?.slice(0, 5).map((book) => (
+            <BookCard {...book} key={book.id} />
+          ))}
+        </div>
+      </section>
+    </>
+  );
 };
 
 export default page;

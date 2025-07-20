@@ -27,7 +27,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error("Password is incorrect");
         }
 
-        return existingUser[0] as User;
+        const user = {
+          id: existingUser[0].id,
+          name: existingUser[0].fullName,
+          email: existingUser[0].email,
+        };
+
+        return user as User;
       },
     }),
   ],
@@ -45,6 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       return token;
     },
+
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;

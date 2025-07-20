@@ -27,8 +27,9 @@ export const bookSchema = z.object({
   genre: z.string().min(2).max(255),
   description: z.string().min(10).max(400),
   totalCoppies: z.coerce.number().min(1).max(1000),
+  rating: z.coerce.number().min(1).max(5),
   image: z.string().nonempty(),
   cover: z.string().nonempty(),
   video: z.string().optional(),
-  summary: z.string().min(10).max(1000),
+  summary: z.string().min(10).max(10000),
 });

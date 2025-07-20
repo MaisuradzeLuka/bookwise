@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import UploadFile from "@/components/UploadFile";
 import { Textarea } from "@/components/ui/textarea";
 import ColorPicker from "../ColorPicker";
-import { addBook } from "@/actions/books";
+import { addBook } from "@/actions/admin";
 
 type Props = {
   type?: string;
@@ -39,6 +39,7 @@ const BookForm = ({ type }: Props) => {
       description: "",
       totalCoppies: 1,
       image: "",
+      rating: 1,
       cover: "",
       video: "",
       summary: "",
@@ -47,7 +48,11 @@ const BookForm = ({ type }: Props) => {
 
   const submitHandler = async (values: z.infer<typeof bookSchema>) => {
     setIsLoading(true);
-    const bookFields = { ...values, availableCoppies: values.totalCoppies };
+    const bookFields = {
+      ...values,
+      rating: values.rating.toString(),
+      availableCoppies: values.totalCoppies,
+    };
 
     const newBook = await addBook(bookFields);
 
@@ -161,11 +166,34 @@ const BookForm = ({ type }: Props) => {
 
           <FormField
             control={form.control}
+            name="rating"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-[#0F172A] text-[16px]">
+                  Book Rating
+                </FormLabel>
+
+                <FormControl>
+                  <Input
+                    required
+                    type="text"
+                    className="bg-[#F9FAFB] px-5 py-6 rounded-[5px] !ring-0 border !border-[#CBD5E1] text-[16px]"
+                    placeholder="Enter the rating of the book (1-5)"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="totalCoppies"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[#0F172A] text-[16px]">
-                  Total nmber of books
+                  Total number of books
                 </FormLabel>
 
                 <FormControl>

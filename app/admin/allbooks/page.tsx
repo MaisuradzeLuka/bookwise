@@ -20,7 +20,8 @@ const page = () => {
             className="brightness-0 invert"
           />
 
-          <span>Add a new book</span>
+          <span className="hidden sm:inline">Add a new book</span>
+          <span className=" sm:hidden">Add Book</span>
         </Link>
       </div>
 
