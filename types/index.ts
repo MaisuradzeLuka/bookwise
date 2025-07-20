@@ -30,4 +30,6 @@ export type BookFields = {
   video?: string | undefined;
 };
 
-export type BookTypes = {};
+export type BookTypes = BookFields & {
+  id: string;
+};

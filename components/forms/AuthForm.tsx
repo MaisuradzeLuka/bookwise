@@ -97,7 +97,7 @@ const AuthForm = <T extends FieldValues>({
                           type="image"
                           accept="image/*"
                           variant="dark"
-                          folder="images"
+                          folder="users"
                         />
                       ) : (
                         <Input

@@ -5,7 +5,7 @@ import Signout from "./Signout";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { getInitials } from "@/lib/utils";
 
-const Navbar = ({ userName }: { userName: string }) => {
+const Navbar = ({ userName, userId }: { userName: string; userId: string }) => {
   return (
     <header className="w-full mb-20">
       <nav className="flex items-center justify-between">
@@ -29,14 +29,16 @@ const Navbar = ({ userName }: { userName: string }) => {
             Search
           </Link>
 
-          <div className="flex items-center gap-1">
+          <Link href={`/user/${userId}`} className="flex items-center gap-1">
             <Avatar>
               <AvatarFallback className="bg-primary-100">
                 <span>{getInitials(userName)}</span>
               </AvatarFallback>
             </Avatar>
+
             <span className="hidden sm:inline">{userName.split(" ")[0]}</span>
-          </div>
+          </Link>
+
           <Signout />
         </div>
       </nav>

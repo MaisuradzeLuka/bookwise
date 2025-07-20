@@ -10,8 +10,8 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <main className="rootLayout pt-15">
-      <div className="w-full max-w-[1200px] mx-auto px-4">
-        <Navbar userName={session.user.name!} />
+      <div className="w-full max-w-[1280px] mx-auto px-4">
+        <Navbar userName={session.user.name!} userId={session.user.id!} />
         {children}
       </div>
     </main>

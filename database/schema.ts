@@ -3,6 +3,7 @@ import {
   date,
   integer,
   numeric,
+  pgEnum,
   pgTable,
   text,
   timestamp,
@@ -35,4 +36,25 @@ export const booksTable = pgTable("books", {
   summary: text("summary").notNull(),
   description: text("description").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
+
+const statusEnum = pgEnum("borrow_status", [
+  "approved",
+  "rejecting",
+  "pending",
+  "returned",
+]);
+
+export const borrowedBooksTable = pgTable("borrowedBooks", {
+  id: uuid("id").primaryKey().defaultRandom().unique(),
+  bookId: uuid("book_id")
+    .notNull()
+    .references(() => booksTable.id),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => usersTable.id),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  dueDate: date("due_date").notNull(),
+  borrowDate: date("borrow_date"),
+  status: statusEnum("status").notNull().default("pending"),
 });

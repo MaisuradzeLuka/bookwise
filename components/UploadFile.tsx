@@ -9,7 +9,7 @@ type Props = {
   type: "image" | "video";
   accept: "image/*" | "video/*";
   variant: "light" | "dark";
-  folder: "videos" | "images";
+  folder: "users" | "books/images" | "books/videos";
   onFileChange: (fileUrl: string) => void;
 };
 
@@ -72,7 +72,7 @@ const UploadFile = ({ accept, type, variant, folder, onFileChange }: Props) => {
 
       if (uploadResponse.url) {
         setFile(uploadResponse.url);
-        onFileChange(uploadResponse.url);
+        onFileChange(uploadResponse.filePath as string);
         setProgress(0);
       }
 

@@ -225,7 +225,7 @@ const BookForm = ({ type }: Props) => {
                     accept="image/*"
                     type="image"
                     variant="light"
-                    folder="images"
+                    folder="books/images"
                   />
                 </FormControl>
                 <FormMessage />
@@ -265,7 +265,7 @@ const BookForm = ({ type }: Props) => {
                     accept="video/*"
                     type="video"
                     variant="light"
-                    folder="videos"
+                    folder="books/videos"
                   />
                 </FormControl>
                 <FormMessage />

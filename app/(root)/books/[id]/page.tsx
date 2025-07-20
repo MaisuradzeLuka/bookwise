@@ -1,7 +1,7 @@
 import { getBooks, getSingleBook } from "@/actions/books";
 import BookCard from "@/components/BookCard";
 import Overwiev from "@/components/Overwiev";
-import { BookFields } from "@/types";
+import { BookTypes } from "@/types";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id: bookId } = await params;
@@ -13,7 +13,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <>
-      <Overwiev book={book as BookFields} />
+      <Overwiev book={book as BookTypes} />
 
       <section className="flex flex-col w-full lg:flex-row gap-40 mt-24 pb-10">
         <div className="flex-1">

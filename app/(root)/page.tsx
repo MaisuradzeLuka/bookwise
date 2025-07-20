@@ -4,7 +4,7 @@ import BookCard from "@/components/BookCard";
 import Overwiev from "@/components/Overwiev";
 import { db } from "@/database";
 import { usersTable } from "@/database/schema";
-import { BookFields } from "@/types";
+import { BookFields, BookTypes } from "@/types";
 import { eq } from "drizzle-orm";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,15 +36,15 @@ const page = async () => {
 
   return (
     <>
-      <Overwiev book={mostRecent as BookFields} />
+      <Overwiev book={mostRecent as BookTypes} />
 
       <section className="pb-20">
         <h2 className="text-white text-[32px] font-semibold mt-20">
           Popular Books
         </h2>
 
-        <div className="w-ful flex flex-col sm:flex-row flex-wrap items-center justify-between mt-12">
-          {books?.books?.slice(0, 5).map((book) => (
+        <div className="w-ful flex flex-col sm:flex-row flex-wrap items-start justify-between mt-12">
+          {books?.books?.slice(1, 6).map((book) => (
             <BookCard {...book} key={book.id} />
           ))}
         </div>

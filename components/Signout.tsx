@@ -10,7 +10,7 @@ const Signout = () => {
         await signOut();
       }}
     >
-      <button type="submit">
+      <button type="submit" className="cursor-pointer">
         <Image
           src="/icons/logout.svg"
           width={24}

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Image } from "@imagekit/next";
 import Link from "next/link";
 import React from "react";
 
@@ -35,11 +35,11 @@ const BookCard = ({
 
       {withText && (
         <div>
-          <p className="text-white text-xl font-semibold mb-2">
+          <p className="text-white font-semibold mb-2">
             {title} - By {author}
           </p>
 
-          <span className="text-[16px] text-[#D6E0FF]">{genre}</span>
+          <span className="text-[12px] text-[#D6E0FF]">{genre}</span>
         </div>
       )}
     </Link>

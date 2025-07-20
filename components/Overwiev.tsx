@@ -1,9 +1,14 @@
-import { BookFields } from "@/types";
-import Image from "next/image";
-import Link from "next/link";
+import { BookTypes } from "@/types";
 import React from "react";
+import BorrowBook from "./BorrowBook";
+import { auth } from "@/auth";
+import { Image } from "@imagekit/next";
 
-const Overwiev = ({ book }: { book: BookFields }) => {
+const Overwiev = async ({ book }: { book: BookTypes }) => {
+  const user = await auth();
+
+  const userId = user?.user?.id!;
+
   return (
     <section className=" flex flex-col-reverse md:flex-row justify-between gap-18 lg:gap-30 text-white">
       <div className="mt-80 md:mt-0 px- flex-1 flex flex-col gap-6 text-[#D6E0FF]">
@@ -21,12 +26,7 @@ const Overwiev = ({ book }: { book: BookFields }) => {
             </p>
 
             <p className="flex gap-1">
-              <Image
-                src="/icons/star.svg"
-                width={22}
-                height={22}
-                alt="rating"
-              />
+              <img src="/icons/star.svg" width={22} height={22} alt="rating" />
               <span>
                 {" "}
                 <span className="text-primary-100">{book?.rating}</span>
@@ -50,13 +50,7 @@ const Overwiev = ({ book }: { book: BookFields }) => {
 
         <p className="text-[20px]">{book?.description}</p>
 
-        <Link
-          href="#"
-          className="flex items-center gap-2 py-[10px] px-5 rounded-sm bg-primary-100 text-black w-max"
-        >
-          <Image src="/icons/book.svg" width={20} height={20} alt="book icon" />
-          BORROW BOOK REQUEST
-        </Link>
+        <BorrowBook userId={userId} {...book} />
       </div>
 
       <div className="relative w-full md:w-[500px]">
@@ -73,7 +67,7 @@ const Overwiev = ({ book }: { book: BookFields }) => {
           width={250}
           height={380}
           alt="book image"
-          className="absolute object-cover h-[380px] w-[250px] !z-90"
+          className="absolute object-cover h-[380px] w-[250px]"
         />
       </div>
     </section>

@@ -68,3 +68,11 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
+
+.userCard {
+  background: linear-gradient(to bottom, #232839 0%, #12141d 100%);
+}
+
+.userCardBookCover {
+  background: linear-gradient(to bottom, #12141d 0%, #12151f 100%);
+}
