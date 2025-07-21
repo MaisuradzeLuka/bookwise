@@ -54,7 +54,7 @@ export const borrowedBooksTable = pgTable("borrowedBooks", {
     .notNull()
     .references(() => usersTable.id),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
-  dueDate: date("due_date").notNull(),
+  dueDate: date("due_date"),
   borrowDate: date("borrow_date"),
   status: statusEnum("status").notNull().default("pending"),
 });

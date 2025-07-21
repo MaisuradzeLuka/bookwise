@@ -26,6 +26,10 @@ export const getBooks = async (filterOptions = "") => {
     };
   } catch (error: any) {
     console.log(`Error while fetching books: ${error.message}`);
+    return {
+      success: false,
+      message: "Error while getting books",
+    };
   }
 };
 
@@ -67,9 +71,7 @@ export const borrowBook = async (bookId: string, userId: string) => {
       };
     }
 
-    const dueDate = generateDueDate();
-
-    await db.insert(borrowedBooksTable).values({ bookId, userId, dueDate });
+    await db.insert(borrowedBooksTable).values({ bookId, userId });
 
     return {
       success: true,
@@ -80,6 +82,34 @@ export const borrowBook = async (bookId: string, userId: string) => {
     return {
       success: false,
       message: "couldn't book, try again later!",
+    };
+  }
+};
+
+export const getBorrowedBooks = async (userId: string) => {
+  try {
+    const books = await db
+      .select()
+      .from(borrowedBooksTable)
+      .innerJoin(booksTable, eq(booksTable.id, borrowedBooksTable.bookId))
+      .where(eq(borrowedBooksTable.userId, userId));
+
+    if (!books.length) {
+      return {
+        seccess: false,
+        message: "No books found",
+      };
+    }
+
+    return {
+      success: true,
+      books: books,
+    };
+  } catch (error: any) {
+    console.log(`Error while fetching books: ${error.message}`);
+    return {
+      success: false,
+      message: "Error while getting books",
     };
   }
 };

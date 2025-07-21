@@ -22,3 +22,37 @@ export const generateDueDate = () => {
     day: "2-digit",
   });
 };
+
+export const formatDateToMonthAndDay = (dateStr: string | null) => {
+  if (!dateStr) return "Waiting for approval";
+  const date = new Date(dateStr);
+
+  const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    day: "numeric",
+  };
+
+  return `Borrowed on ${date.toLocaleDateString("en-US", options)}`;
+};
+
+export const getDueStatus = (dueDate: string | null) => {
+  if (!dueDate) return { status: "waiting", message: "Waiting for approval" };
+
+  const due = new Date(dueDate);
+  const current = new Date();
+
+  const start = new Date(current.setHours(0, 0, 0, 0));
+  const end = new Date(due.setHours(0, 0, 0, 0));
+
+  const diff = Math.ceil(
+    (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  if (diff < 0) return { status: "overdue", message: "Overdue Return" };
+  if (diff === 0) return { status: "borrowed", message: "Due today" };
+
+  return {
+    status: "borrowed",
+    message: `${diff} day${diff > 1 ? "s" : ""} left to due`,
+  };
+};
