@@ -2,15 +2,29 @@
 
 import { db } from "@/database";
 import { booksTable, borrowedBooksTable } from "@/database/schema";
-import { generateDueDate } from "@/lib/utils";
-import { desc, eq, sql } from "drizzle-orm";
+import { desc, eq, ilike, or, sql } from "drizzle-orm";
 
-export const getBooks = async (filterOptions = "") => {
+export const getBooks = async (
+  filterOptions = "",
+  limit: number,
+  offset = 0
+) => {
   try {
     const books = await db
       .select()
       .from(booksTable)
-      .where(filterOptions ? eq(booksTable.genre, filterOptions) : sql`TRUE`)
+      .where(
+        filterOptions
+          ? or(
+              ilike(booksTable.title, `%${filterOptions}%`),
+              ilike(booksTable.description, `%${filterOptions}%`),
+              ilike(booksTable.genre, `%${filterOptions}%`),
+              ilike(booksTable.author, `%${filterOptions}%`)
+            )
+          : sql`TRUE`
+      )
+      .limit(limit)
+      .offset(offset)
       .orderBy(desc(booksTable.rating));
 
     if (!books.length) {

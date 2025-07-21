@@ -13,9 +13,7 @@ import { after } from "next/server";
 const page = async () => {
   const session = await auth();
 
-  const books = await getBooks();
-
-  const mostRecent = books?.books![0];
+  const res = await getBooks("", 6, 0);
 
   after(async () => {
     const user = await db
@@ -36,7 +34,7 @@ const page = async () => {
 
   return (
     <>
-      <Overwiev book={mostRecent as BookTypes} />
+      <Overwiev book={res?.books![0] as BookTypes} />
 
       <section className="pb-20">
         <h2 className="text-white text-[32px] font-semibold mt-20">
@@ -44,7 +42,7 @@ const page = async () => {
         </h2>
 
         <div className="w-ful flex flex-col sm:flex-row flex-wrap items-start justify-between mt-12">
-          {books?.books?.slice(1, 6).map((book) => (
+          {res?.books?.slice(1, 6).map((book) => (
             <BookCard {...book} key={book.id} />
           ))}
         </div>

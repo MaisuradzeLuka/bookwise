@@ -9,7 +9,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const res = await getSingleBook(bookId);
 
   const book = res?.book;
-  const books = await getBooks(book?.genre);
+  const books = await getBooks(book?.genre, 6);
 
   return (
     <>

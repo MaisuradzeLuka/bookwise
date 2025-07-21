@@ -2,6 +2,7 @@ import { getBooks, getBorrowedBooks } from "@/actions/books";
 import { getUser } from "@/actions/user";
 import { formatDateToMonthAndDay, getDueStatus } from "@/lib/utils";
 import { Image } from "@imagekit/next";
+import Link from "next/link";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -72,7 +73,8 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                   : getDueStatus(borrowedBooks.dueDate);
 
               return (
-                <div
+                <Link
+                  href={`/books/${books.id}`}
                   key={books.id}
                   className="relative userCardBookCover flex flex-col gap-5 w-5/6 lg:w-[300px] xl:w-full mx-auto rounded-2xl p-5"
                 >
@@ -144,7 +146,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                       className="absolute -top-3 -left-4 w-8 h-8"
                     />
                   )}
-                </div>
+                </Link>
               );
             })}
           </div>

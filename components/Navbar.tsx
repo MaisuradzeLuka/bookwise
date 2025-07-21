@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Signout from "./Signout";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 import { getInitials } from "@/lib/utils";
 
 const Navbar = ({ userName, userId }: { userName: string; userId: string }) => {
@@ -25,7 +25,7 @@ const Navbar = ({ userName, userId }: { userName: string; userId: string }) => {
 
         <div className="flex items-center gap-8 text-white">
           <Link href="/">Home</Link>
-          <Link href="#" className="text-[#EED1AC]">
+          <Link href="/search" className="text-[#EED1AC]">
             Search
           </Link>
 

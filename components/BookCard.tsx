@@ -23,7 +23,7 @@ const BookCard = ({
     <Link
       href={`/books/${id}`}
       key={id}
-      className="w-full md:w-[144px] flex md:flex-col gap-4"
+      className="w-full md:w-[144px] flex md:flex-col mx-auto gap-4"
     >
       <Image
         src={image}
