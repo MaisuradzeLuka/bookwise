@@ -4,11 +4,9 @@ import { db } from "@/database";
 import { booksTable, borrowedBooksTable } from "@/database/schema";
 import { desc, eq, ilike, or, sql } from "drizzle-orm";
 
-export const getBooks = async (
-  filterOptions = "",
-  limit: number,
-  offset = 0
-) => {
+export const getBooks = async (filterOptions = "", limit: number, page = 1) => {
+  const offset = (page - 1) * limit;
+
   try {
     const books = await db
       .select()

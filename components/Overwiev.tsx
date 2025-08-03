@@ -53,7 +53,7 @@ const Overwiev = async ({ book }: { book: BookTypes }) => {
         <BorrowBook userId={userId} {...book} />
       </div>
 
-      <div className="relative w-full md:w-[500px]">
+      <div className="relative w-full md:w-[500px] mb-16 xl:mb-0">
         <Image
           src={book?.image || ""}
           width={250}

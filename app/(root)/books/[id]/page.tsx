@@ -9,7 +9,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const res = await getSingleBook(bookId);
 
   const book = res?.book;
-  const books = await getBooks(book?.genre, 6);
+  const books = await getBooks(book?.genre, 7);
 
   return (
     <>
@@ -34,14 +34,16 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
         </div>
 
-        <div className="w-full md:w-[500px]">
+        <div className="w-full lg:w-[500px]">
           <h3 className="text-3xl text-[#D6E0FF] font-semibold mb-6">
             More Similar Books
           </h3>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 gap-4">
             {books?.books?.slice(0, 6).map((book) => (
-              <BookCard withText={false} {...book} key={book.id} />
+              <div className="mx-auto">
+                <BookCard withText={false} {...book} key={book.id} />
+              </div>
             ))}
           </div>
         </div>

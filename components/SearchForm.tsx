@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 const SearchForm = () => {

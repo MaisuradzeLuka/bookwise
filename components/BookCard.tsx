@@ -30,12 +30,12 @@ const BookCard = ({
         width={144}
         height={200}
         alt="book image"
-        className="object w-[144px] h-[200px]"
+        className="object-cover w-[144px] h-[200px]"
       />
 
       {withText && (
-        <div>
-          <p className="text-white font-semibold mb-2">
+        <div className="flex-1">
+          <p className=" text-white font-semibold mb-2">
             {title} - By {author}
           </p>
 

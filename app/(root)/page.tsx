@@ -13,7 +13,7 @@ import { after } from "next/server";
 const page = async () => {
   const session = await auth();
 
-  const res = await getBooks("", 6, 0);
+  const res = await getBooks("", 7, 1);
 
   after(async () => {
     const user = await db
@@ -41,8 +41,8 @@ const page = async () => {
           Popular Books
         </h2>
 
-        <div className="w-ful flex flex-col sm:flex-row flex-wrap items-start justify-between mt-12">
-          {res?.books?.slice(1, 6).map((book) => (
+        <div className="w-ful flex flex-col sm:flex-row flex-wrap items-start justify-between gap-4 mt-12">
+          {res?.books?.slice(1, 7).map((book) => (
             <BookCard {...book} key={book.id} />
           ))}
         </div>

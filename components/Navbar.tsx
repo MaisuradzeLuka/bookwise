@@ -25,7 +25,7 @@ const Navbar = ({ userName, userId }: { userName: string; userId: string }) => {
 
         <div className="flex items-center gap-8 text-white">
           <Link href="/">Home</Link>
-          <Link href="/search" className="text-[#EED1AC]">
+          <Link href="/search?page=1" className="text-[#EED1AC]">
             Search
           </Link>
 

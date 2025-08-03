@@ -1,17 +1,16 @@
 import { getBooks } from "@/actions/books";
 import BookCard from "@/components/BookCard";
 import PaginationComp from "@/components/Pagination";
-import Pagination from "@/components/Pagination";
 import SearchForm from "@/components/SearchForm";
 
 const page = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ filter: string }>;
+  searchParams: Promise<{ filter: string; page: string }>;
 }) => {
-  const { filter } = await searchParams;
+  const { filter, page } = await searchParams;
 
-  const res = await getBooks(filter, 12, 0);
+  const res = await getBooks(filter, 12, +page);
 
   const books = res.books;
 
@@ -37,7 +36,7 @@ const page = async ({
           ))}
         </div>
 
-        <PaginationComp />
+        <PaginationComp page={page} booksLength={books?.length || 0} />
       </section>
     </>
   );
