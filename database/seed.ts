@@ -51,20 +51,20 @@ const seed = async () => {
         "/books/videos"
       )) as string;
 
-      // await db.insert(booksTable).values({
-      //   id: book.id,
-      //   title: book.title,
-      //   author: book.author,
-      //   genre: book.genre,
-      //   rating: String(book.rating),
-      //   cover: book.cover,
-      //   description: book.description,
-      //   totalCoppies: book.totalCoppies,
-      //   availableCoppies: book.availableCoppies,
-      //   summary: book.summary,
-      //   image: image.url,
-      //   video: video,
-      // });
+      await db.insert(booksTable).values({
+        id: book.id,
+        title: book.title,
+        author: book.author,
+        genre: book.genre,
+        rating: String(book.rating),
+        cover: book.cover,
+        description: book.description,
+        totalCoppies: book.totalCoppies,
+        availableCoppies: book.availableCoppies,
+        summary: book.summary,
+        image: image,
+        video: video,
+      });
     }
 
     console.log("Data seeded successfully!");

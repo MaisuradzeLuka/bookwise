@@ -2,6 +2,7 @@ import { getBooks, getSingleBook } from "@/actions/books";
 import BookCard from "@/components/BookCard";
 import Overwiev from "@/components/Overwiev";
 import { BookTypes } from "@/types";
+import { Video } from "@imagekit/next";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id: bookId } = await params;
@@ -22,6 +23,15 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
               <h3 className="text-3xl text-[#D6E0FF] font-semibold mb-6">
                 Video
               </h3>
+
+              <Video
+                src={book.video}
+                controls
+                className="w-full h-auto mb-15"
+                // poster="https://ik.imagekit.io/your_imagekit_id/preview.jpg"
+              >
+                Your browser does not support the video tag.
+              </Video>
             </div>
           )}
 

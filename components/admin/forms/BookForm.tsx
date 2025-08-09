@@ -20,30 +20,38 @@ import { Input } from "@/components/ui/input";
 import UploadFile from "@/components/UploadFile";
 import { Textarea } from "@/components/ui/textarea";
 import ColorPicker from "../ColorPicker";
-import { addBook } from "@/actions/admin";
+import { addBook, updateBook } from "@/actions/admin";
+import { BookTypes } from "@/types";
 
 type Props = {
   type?: string;
+  defaultValues?: z.infer<typeof bookSchema>;
+  bookId?: string;
 };
 
-const BookForm = ({ type }: Props) => {
+const BookForm = ({ type, defaultValues, bookId }: Props) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  const formDefaultValues =
+    type === "edit" && defaultValues
+      ? defaultValues
+      : {
+          title: "",
+          author: "",
+          genre: "",
+          description: "",
+          totalCoppies: 1,
+          image: "",
+          rating: 1,
+          cover: "",
+          video: "",
+          summary: "",
+        };
+
   const form = useForm<z.infer<typeof bookSchema>>({
     resolver: zodResolver(bookSchema),
-    defaultValues: {
-      title: "",
-      author: "",
-      genre: "",
-      description: "",
-      totalCoppies: 1,
-      image: "",
-      rating: 1,
-      cover: "",
-      video: "",
-      summary: "",
-    },
+    defaultValues: formDefaultValues,
   });
 
   const submitHandler = async (values: z.infer<typeof bookSchema>) => {
@@ -54,7 +62,10 @@ const BookForm = ({ type }: Props) => {
       availableCoppies: values.totalCoppies,
     };
 
-    const newBook = await addBook(bookFields);
+    const newBook =
+      type === "edit"
+        ? await updateBook(bookId!, bookFields)
+        : await addBook(bookFields);
 
     if (newBook.success) {
       toast.success(newBook.message);
@@ -301,7 +312,7 @@ const BookForm = ({ type }: Props) => {
             disabled={isLoading}
             className="bg-primary-blue text-white font-bold cursor-pointer"
           >
-            Add book
+            {type === "edit" ? "Edit" : "Add"} book
           </Button>
         </form>
       </Form>

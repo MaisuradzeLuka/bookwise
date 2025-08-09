@@ -1,5 +1,5 @@
 {
-  "id": "f52a1451-08b8-405c-9805-fb06d198161a",
+  "id": "c30bc636-8ab1-460b-83dc-45517c2d8809",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -140,7 +140,7 @@
           "name": "due_date",
           "type": "date",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "borrow_date": {
           "name": "borrow_date",
@@ -234,6 +234,14 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "role_enum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'user'"
         },
         "password": {
           "name": "password",

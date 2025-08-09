@@ -16,6 +16,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex">
       <Sidebar />
+
       <section className="bg-[#F8F8FF] rounded-xl flex-1 p-6">
         <div className="mb-10">
           <h2 className="text-[#1E293B] font-semibold text-2xl mb-[6px]">

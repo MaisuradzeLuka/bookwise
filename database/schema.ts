@@ -1,4 +1,3 @@
-import { decimal } from "drizzle-orm/mysql-core";
 import {
   date,
   integer,
@@ -11,12 +10,15 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+const roleEnum = pgEnum("role_enum", ["admin", "user"]);
+
 export const usersTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom().unique(),
   fullName: varchar("full_name", { length: 255 }).notNull(),
   email: varchar("email", { length: 255 }).notNull().unique(),
   universityId: integer("university_id").notNull(),
   universityCard: text("university_card").notNull(),
+  role: roleEnum("role").default("user"),
   password: text("password").notNull(),
   lastActivity: date("last_activity").defaultNow(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),

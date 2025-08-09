@@ -1,4 +1,7 @@
-CREATE TYPE "borrow_status" AS ENUM ('approved', 'rejecting', 'pending', 'returned');
+CREATE TYPE "role_enum" AS ENUM ('admin', 'user');
+
+
+
 
 CREATE TABLE "books" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
@@ -22,7 +25,7 @@ CREATE TABLE "borrowedBooks" (
 	"book_id" uuid NOT NULL,
 	"user_id" uuid NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now(),
-	"due_date" date NOT NULL,
+	"due_date" date,
 	"borrow_date" date,
 	"status" "borrow_status" DEFAULT 'pending' NOT NULL,
 	CONSTRAINT "borrowedBooks_id_unique" UNIQUE("id")
@@ -34,6 +37,7 @@ CREATE TABLE "users" (
 	"email" varchar(255) NOT NULL,
 	"university_id" integer NOT NULL,
 	"university_card" text NOT NULL,
+	"role" "role_enum" DEFAULT 'user',
 	"password" text NOT NULL,
 	"last_activity" date DEFAULT now(),
 	"created_at" timestamp with time zone DEFAULT now(),

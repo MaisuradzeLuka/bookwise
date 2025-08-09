@@ -34,7 +34,7 @@ export const adminSidebarLinks = [
     label: "All Books",
   },
   {
-    route: "/admin/borrowrequests",
+    route: "/admin/borrow-requests",
     id: "borrowRequests",
     image: "/icons/admin/bookmark.svg",
     label: "Borrow Requests",
@@ -45,4 +45,9 @@ export const adminSidebarLinks = [
     image: "/icons/admin/user.svg",
     label: "Account Requests",
   },
+];
+
+export const usersRoles = [
+  { label: "Admin", color: "#027A48", id: "admin" },
+  { label: "User", color: "#C11574", id: "user" },
 ];
