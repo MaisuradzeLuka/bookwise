@@ -33,3 +33,7 @@ export type BookFields = {
 export type BookTypes = BookFields & {
   id: string;
 };
+
+export type BookStatus = {
+  status: "pending" | "approved" | "rejecting" | "returned";
+};

@@ -2,8 +2,8 @@
 
 import { db } from "@/database";
 import { booksTable, borrowedBooksTable, usersTable } from "@/database/schema";
-import { BookFields } from "@/types";
-import { eq } from "drizzle-orm";
+import { BookFields, BookStatus } from "@/types";
+import { eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export const addBook = async (bookFields: BookFields) => {
@@ -27,13 +27,28 @@ export const addBook = async (bookFields: BookFields) => {
   }
 };
 
-export const updateBook = async (id: string, bookFields: BookFields) => {
+export const updateBook = async <T extends object>(
+  id: string,
+  bookFields: T,
+  table: "books" | "borrowed"
+) => {
   try {
-    const response = await db
-      .update(booksTable)
-      .set(bookFields)
-      .where(eq(booksTable.id, id))
-      .returning();
+    let response = null;
+    if (table === "books") {
+      response = await db
+        .update(booksTable)
+        .set(bookFields)
+        .where(eq(booksTable.id, id))
+        .returning();
+    } else {
+      response = await db
+        .update(borrowedBooksTable)
+        .set(bookFields)
+        .where(eq(borrowedBooksTable.id, id))
+        .returning();
+
+      revalidatePath("/admin/borrow-requests");
+    }
 
     return {
       success: true,
@@ -69,7 +84,8 @@ export const getBorrowedBooks = async () => {
     const books = await db
       .select()
       .from(borrowedBooksTable)
-      .innerJoin(booksTable, eq(booksTable.id, borrowedBooksTable.bookId));
+      .innerJoin(booksTable, eq(booksTable.id, borrowedBooksTable.bookId))
+      .innerJoin(usersTable, eq(usersTable.id, borrowedBooksTable.userId));
 
     if (!books.length) {
       return {
@@ -93,24 +109,33 @@ export const getBorrowedBooks = async () => {
 
 export const getUsers = async () => {
   try {
-    const users = await db.select().from(usersTable);
-
-    if (!users.length) {
-      return {
-        seccess: false,
-        message: "No users found",
-      };
-    }
+    const users = await db
+      .select({
+        id: usersTable.id,
+        fullName: usersTable.fullName,
+        email: usersTable.email,
+        universityId: usersTable.universityId,
+        universityCard: usersTable.universityCard,
+        role: usersTable.role,
+        createdAt: usersTable.createdAt,
+        borrowedCount: sql<number>`COUNT(${borrowedBooksTable.bookId})`,
+      })
+      .from(usersTable)
+      .leftJoin(
+        borrowedBooksTable,
+        eq(usersTable.id, borrowedBooksTable.userId)
+      )
+      .groupBy(usersTable.id);
 
     return {
       success: true,
       body: users,
     };
   } catch (error: any) {
-    console.log(`Error while getting users: ${error.message}`);
+    console.error("Error while getting users with borrow count:", error);
     return {
       success: false,
-      message: "Error while getting users",
+      message: "Error fetching users",
     };
   }
 };
@@ -142,13 +167,13 @@ export const updateUser = async (userId: string, role: "admin" | "user") => {
 
     return {
       success: true,
-      message: "Book updated successfully",
+      message: "User updated successfully",
     };
   } catch (error: any) {
     console.log("Error while updating book: ", error);
     return {
       success: false,
-      message: `Coudln't upate the book. Please try again later`,
+      message: `Coudln't upate user. Please try again later`,
     };
   }
 };

@@ -18,17 +18,18 @@ const page = async () => {
         <li className="flex justify-center">Borrowed date</li>
         <li className="flex justify-center">Return date</li>
         <li className="flex justify-center">Due Date</li>
-        <li className="flex justify-center">Receipt</li>
+        <li className="flex justify-center">Action</li>
       </ul>
 
       <ul>
-        {/* {body?.map((item) => (
+        {body?.map((item) => (
           <BorrowedBooksList
             key={item.borrowedBooks.id}
-            book={item.books}
+            book={{ image: item.books.image, title: item.books.title }}
+            user={{ fullname: item.users.fullName, email: item.users.email }}
             borrowedBook={item.borrowedBooks}
           />
-        ))} */}
+        ))}
       </ul>
     </div>
   );

@@ -39,7 +39,7 @@ const RequestModal = ({
       <DialogTrigger asChild onClick={() => setIsOpen(true)}>
         <Button
           variant="outline"
-          className="flex justify-center border-none shadow-none text-[#0089F1] font-medium cursor-pointer p-0 mx-auto"
+          className=" flex justify-center border-none shadow-none text-[#0089F1] font-medium cursor-pointer p-0"
         >
           {triggerIcon}
         </Button>

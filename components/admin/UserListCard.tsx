@@ -17,10 +17,9 @@ type Props = {
   email: string;
   universityId: number;
   universityCard: string;
-  password: string;
-  lastActivity: string | null;
   createdAt: Date | null;
   role: "admin" | "user";
+  borrowedCount: string;
 };
 
 const UserListCard = ({
@@ -31,6 +30,7 @@ const UserListCard = ({
   fullName,
   email,
   role,
+  borrowedCount,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -79,7 +79,9 @@ const UserListCard = ({
 
       <DropDown values={usersRoles} defaultValue={role} onSubmit={onSubmit} />
 
-      <span className="flex justify-center text-[#3A354E] font-medium">10</span>
+      <span className="flex justify-center text-[#3A354E] font-medium">
+        {borrowedCount}
+      </span>
 
       <span className="flex justify-center text-[#3A354E] font-medium">
         {universityId}

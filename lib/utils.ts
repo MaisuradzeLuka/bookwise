@@ -56,3 +56,24 @@ export const getDueStatus = (dueDate: string | null) => {
     message: `${diff} day${diff > 1 ? "s" : ""} left to due`,
   };
 };
+
+export const getStatusTypes = (
+  status: "pending" | "rejecting" | "approved" | "returned"
+) => {
+  switch (status) {
+    case "approved":
+      return { text: "Approved", color: "#027A48" };
+
+    case "rejecting":
+      return { text: "Rejected", color: "#C01048" };
+
+    case "pending":
+      return { text: "Pending", color: "#FFB300" };
+
+    case "returned":
+      return { text: "Returned", color: "#2ECC71" };
+
+    default:
+      return { text: status, color: "black" };
+  }
+};

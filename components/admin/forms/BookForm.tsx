@@ -64,7 +64,7 @@ const BookForm = ({ type, defaultValues, bookId }: Props) => {
 
     const newBook =
       type === "edit"
-        ? await updateBook(bookId!, bookFields)
+        ? await updateBook(bookId!, bookFields, "books")
         : await addBook(bookFields);
 
     if (newBook.success) {
