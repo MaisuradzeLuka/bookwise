@@ -16,7 +16,7 @@ const THREE_DAYS_IN_MS = ONE_DAY_IN_MS * 3;
 const ONE_MONTH_IN_MS = ONE_DAY_IN_MS * 30;
 
 export const signInWithCredentials = async (
-  credentials: Pick<Credentials, "email" | "password">
+  credentials: Pick<Credentials, "email" | "password">,
 ) => {
   const { email, password } = credentials;
 
@@ -66,13 +66,6 @@ export const signUpWithCredentials = async (credentials: Credentials) => {
     });
 
     await signInWithCredentials({ email, password });
-
-    await workflowClient.trigger({
-      url: `${config.env.productionApiEndpoint}/api/auth/workflow`,
-      body: {
-        email,
-      },
-    });
 
     return { success: true };
   } catch (error: any) {

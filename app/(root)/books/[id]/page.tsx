@@ -51,7 +51,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
           <div className="w-full grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 gap-4">
             {books?.books?.slice(0, 6).map((book) => (
-              <div className="mx-auto">
+              <div key={book.id} className="mx-auto">
                 <BookCard withText={false} {...book} key={book.id} />
               </div>
             ))}

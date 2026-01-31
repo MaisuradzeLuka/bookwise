@@ -47,8 +47,26 @@ const AuthForm = <T extends FieldValues>({
 
     if (res.success) {
       toast.success(
-        type === "sign-in" ? "Signed in successfuly" : "Signed up successfuly"
+        type === "sign-in" ? "Signed in successfuly" : "Signed up successfuly",
       );
+
+      router.push("/");
+    } else {
+      toast.error(res.message);
+    }
+    setIsLoading(false);
+  };
+
+  const handleGuestAccount = async () => {
+    setIsLoading(true);
+
+    const res = await onSubmit({
+      email: "guest.e.mail120@gmail.com",
+      password: "jackhammer",
+    } as unknown as T);
+
+    if (res.success) {
+      toast.success("Signed in successfuly");
 
       router.push("/");
     } else {
@@ -123,6 +141,14 @@ const AuthForm = <T extends FieldValues>({
             type="submit"
           >
             {type === "sign-in" ? "LogIn" : "Sign Up"}
+          </Button>
+          <Button
+            disabled={isLoading}
+            className="bg-#14171C text-primary-100 cursor-pointer w-max mx-auto"
+            type="button"
+            onClick={handleGuestAccount}
+          >
+            Use Guest Account
           </Button>
         </form>
       </Form>
